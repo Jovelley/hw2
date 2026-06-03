@@ -5,10 +5,23 @@
 Реализация классов для работы с рецептами, ингредиентами и списками покупок,. Тестирование созданных классов
 
 # Использование
+Структура проекта
+project
+├── recipes.py              # Основные классы
+├── test_recipes.py         # Тесты pytest
+├── requirements.txt        # Зависимости
+├── .gitignore             # Игнорируемые файлы
+└── README.md              # Документация
+
 ### Запуск программы
 ## Установка
-
 py -m pip install -r requirements.txt
 
+```bash
+git clone hw2
+cd project
+pip install -r requirements.txt
+pytest
+```
 ## Автор 
 Кутаева Варвара Сергеевна ТАДБ252
