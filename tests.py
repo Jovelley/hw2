@@ -3,7 +3,7 @@ from recipes import Ingredient, Recipe, ShoppingList, DietaryRecipe
 
 class TestIngredient:
 
-    def test_creation():
+    def test_creation(self):
         ingredient = Ingredient("Мука", 500, "г")
         assert ingredient.name == "Мука"
         assert ingredient.quantity == 500.0
@@ -13,21 +13,21 @@ class TestIngredient:
         with pytest.raises(ValueError, match="Количество должно быть положительным"):
             Ingredient("Мука", -100, "г")
 
-    def test_str():
+    def test_str(self):
         ingredient = Ingredient("Мука", 500, "г")
         assert str(ingredient) == "Мука: 500.0 г"
 
-    def test_equal_same_name_and_unit():
+    def test_equal_same_name_and_unit(self):
         i1 = Ingredient("Мука", 500, "г")
         i2 = Ingredient("Мука", 300, "г")
         assert i1 == i2
 
-    def test_not_equal_different_name():
+    def test_not_equal_different_name(self):
         i1 = Ingredient("Мука", 500, "г")
         i2 = Ingredient("Сахар", 500, "г")
         assert i1 != i2
 
-    def test_not_equal_different_unit():
+    def test_not_equal_different_unit(self):
         i1 = Ingredient("Мука", 500, "г")
         i2 = Ingredient("Мука", 500, "кг")
         assert i1 != i2
@@ -40,12 +40,12 @@ class TestRecipe:
         assert recipe.title == "Пицца"
         assert len(recipe.ingredients) == 1
 
-    def test_recipe_creation():
+    def test_recipe_creation(self):
         recipe = Recipe("Пицца")
         assert recipe.title == "Пицца"
         assert recipe.ingredients == []
 
-    def test_add_new_ingredient():
+    def test_add_new_ingredient(self):
         recipe = Recipe("Пицца")
         ingredient = Ingredient("Сыр", 100, "г")
         recipe.add_ingredient(ingredient)
@@ -59,32 +59,33 @@ class TestRecipe:
         assert Recipe.is_valid_ratio(0) == False
         assert Recipe.is_valid_ratio("не число") == False
 
-    def test_add_existing_ingredient():
+    def test_add_existing_ingredient(self):
         recipe = Recipe("Пицца")
         recipe.add_ingredient(Ingredient("Сыр", 100, "г"))
         recipe.add_ingredient(Ingredient("Сыр", 50, "г"))
         assert len(recipe.ingredients) == 1
         assert recipe.ingredients[0].quantity == 150
 
-    def test_scale_returns_new_recipe():
+    def test_scale_returns_new_recipe(self):
         recipe = Recipe("Тесто", [Ingredient("Мука", 100, "г")])
         scaled = recipe.scale(2)
         assert scaled is not recipe
         assert scaled.ingredients[0].quantity == 200
         assert recipe.ingredients[0].quantity == 100
 
-    def test_scale_invalid_ratio():
+    def test_scale_invalid_ratio(self):
         recipe = Recipe("Тесто",[Ingredient("Мука", 100, "г")])
         with pytest.raises(ValueError):
             recipe.scale(0)
 
-    def test_recipe_len():
+    def test_recipe_len(self):
         recipe = Recipe("Салат")
         recipe.add_ingredient(Ingredient("Помидор", 2, "шт"))
         recipe.add_ingredient(Ingredient("Огурец", 1, "шт"))
         assert len(recipe) == 2
 
 class TestShoppingList:
+
     def test_add_recipe(self):
         ing = Ingredient("Мука", 500, "г")
         recipe = Recipe("Пицца", [ing])
@@ -93,15 +94,15 @@ class TestShoppingList:
         assert len(shopping_list._items) == 1
         assert shopping_list._items[0][0].quantity == 1000
     
-    def test_add_recipe_invalid_portions():
+    def test_add_recipe_invalid_portions(self):
         shopping = ShoppingList()
-        recipe = Recipe("Суп",[Ingredient("Вода", 1, "л")])
+        recipe = Recipe("Суп", [Ingredient("Вода", 1, "л")])
         with pytest.raises(ValueError, match="Количество порций должно быть положительным"):
-            shopping_list.add_recipe(recipe, -1)
+            shopping.add_recipe(recipe, -1)
         with pytest.raises(ValueError, match="Количество порций должно быть положительным"):
-            shopping_list.add_recipe(recipe, 0)
+            shopping.add_recipe(recipe, 0)
     
-     def test_remove_recipe(self):
+    def test_remove_recipe(self):
         recipe1 = Recipe("Пицца", [Ingredient("Мука", 500, "г")])
         recipe2 = Recipe("Паста", [Ingredient("Сыр", 200, "г")])
         shopping_list = ShoppingList()
@@ -112,7 +113,7 @@ class TestShoppingList:
         assert len(shopping_list._items) == 1
         assert shopping_list._items[0][1] == "Паста"
     
-    def test_remove_nonexistent_recipe():
+    def test_remove_nonexistent_recipe(self):
         shopping = ShoppingList()
         recipe = Recipe("Суп",[Ingredient("Вода", 1, "л")])
         shopping.add_recipe(recipe, 1)
@@ -120,18 +121,18 @@ class TestShoppingList:
         items = shopping.get_list()
         assert len(items) == 1
     
-    def test_get_list_sums_ingredients():
+    def test_get_list_sums_ingredients(self):
         recipe1 = Recipe("Пицца", [Ingredient("Сыр", 100, "г")])
         recipe2 = Recipe("Паста",[Ingredient("Сыр", 50, "г")])
         shopping = ShoppingList()
         shopping.add_recipe(recipe1, 1)
         shopping.add_recipe(recipe2, 1)
-        result = shopping_list.get_list()
+        result = shopping.get_list()
         assert len(result) == 1
         assert result[0].name == "Сыр"
-        assert cheese.quantity == 150
+        assert result[0].quantity == 150
     
-    def test_get_list_sorted():
+    def test_get_list_sorted(self):
         recipe = Recipe("Салат",[Ingredient("Помидор", 2, "шт"),Ingredient("Огурец", 1, "шт")])
         shopping = ShoppingList()
         shopping.add_recipe(recipe, 1)
@@ -139,7 +140,7 @@ class TestShoppingList:
         assert items[0].name == "Огурец"
         assert items[1].name == "Помидор"
     
-    def test_shopping_list_add():
+    def test_shopping_list_add(self):
         shopping1 = ShoppingList()
         shopping2 = ShoppingList()
         recipe1 = Recipe("Суп",[Ingredient("Вода", 1, "л")])
