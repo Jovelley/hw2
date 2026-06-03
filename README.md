@@ -8,11 +8,7 @@
 ### Запуск программы
 ## Установка
 
-```bash
-git clone hw2
-cd project
-pip install -r requirements.txt
-pytest
-```
+py -m pip install -r requirements.txt
+
 ## Автор 
 Кутаева Варвара Сергеевна ТАДБ252
