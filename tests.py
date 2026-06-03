@@ -31,3 +31,55 @@ class TestIngredient:
         i1 = Ingredient("Мука", 500, "г")
         i2 = Ingredient("Мука", 500, "кг")
         assert i1 != i2
+
+
+class TestRecipe:
+    def test_creation(self):
+        ing = Ingredient("Мука", 500, "г")
+        recipe = Recipe("Пицца", [ing])
+        assert recipe.title == "Пицца"
+        assert len(recipe.ingredients) == 1
+
+    def test_recipe_creation():
+        recipe = Recipe("Пицца")
+        assert recipe.title == "Пицца"
+        assert recipe.ingredients == []
+
+    def test_add_new_ingredient():
+        recipe = Recipe("Пицца")
+        ingredient = Ingredient("Сыр", 100, "г")
+        recipe.add_ingredient(ingredient)
+        assert len(recipe.ingredients) == 1
+        assert recipe.ingredients[0] == ingredient
+        assert recipe.ingredients[0].quantity == 100
+
+    def test_is_valid_ratio(self):
+        assert Recipe.is_valid_ratio(2.5) == True
+        assert Recipe.is_valid_ratio(-1) == False
+        assert Recipe.is_valid_ratio(0) == False
+        assert Recipe.is_valid_ratio("не число") == False
+
+    def test_add_existing_ingredient():
+        recipe = Recipe("Пицца")
+        recipe.add_ingredient(Ingredient("Сыр", 100, "г"))
+        recipe.add_ingredient(Ingredient("Сыр", 50, "г"))
+        assert len(recipe.ingredients) == 1
+        assert recipe.ingredients[0].quantity == 150
+
+    def test_scale_returns_new_recipe():
+        recipe = Recipe("Тесто", [Ingredient("Мука", 100, "г")])
+        scaled = recipe.scale(2)
+        assert scaled is not recipe
+        assert scaled.ingredients[0].quantity == 200
+        assert recipe.ingredients[0].quantity == 100
+
+    def test_scale_invalid_ratio():
+        recipe = Recipe("Тесто",[Ingredient("Мука", 100, "г")])
+        with pytest.raises(ValueError):
+            recipe.scale(0)
+
+    def test_recipe_len():
+        recipe = Recipe("Салат")
+        recipe.add_ingredient(Ingredient("Помидор", 2, "шт"))
+        recipe.add_ingredient(Ingredient("Огурец", 1, "шт"))
+        assert len(recipe) == 2
