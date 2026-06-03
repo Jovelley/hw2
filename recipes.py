@@ -25,9 +25,11 @@ class Ingredient:
         if not isinstance(other, Ingredient):
             return False
         return self.name == other.name and self.unit == other.unit
+    
 
 class Recipe:
-    def __init__(self, title, ingredients):
+
+    def __init__(self, title, ingredients=None):
         self.title = title
         self.ingredients = ingredients if ingredients is not None else []
 
@@ -57,7 +59,7 @@ class Recipe:
     def __str__(self):
         ingredients_str = "\n".join(str(i) for i in self.ingredients)
         return f"{self.title}:\n{ingredients_str}"
-
+    
 
 class ShoppingList:
     def __init__(self):
@@ -92,7 +94,6 @@ class ShoppingList:
         new_list = ShoppingList()
         new_list._items = self._items + other._items
         return new_list
-
 
 class DietaryRecipe(Recipe):
     def __init__(self, title, diet_type, ingredients):
