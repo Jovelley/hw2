@@ -26,9 +26,14 @@ if __name__ == "__main__":
     print(shopping.get_list())
 ```
 ### Установка 
+```bash
 py -m pip install -r requirements.txt
+```
 ## Запуск тестов
+```bash
 py -m pytest -v
+```
+## Запуск 
 ```bash
 git clone hw2
 cd project
